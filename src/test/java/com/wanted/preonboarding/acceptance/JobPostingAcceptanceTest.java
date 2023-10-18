@@ -33,7 +33,6 @@ public class JobPostingAcceptanceTest {
         final Response response = RestAssured.given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/api/jobPostings");
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -49,7 +48,6 @@ public class JobPostingAcceptanceTest {
         final Response response = RestAssured.given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().put("/api/jobPostings/" + jobPostingId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -60,8 +58,6 @@ public class JobPostingAcceptanceTest {
     void deleteJobPosting() {
         final long jobPostingId = 1L;
         final Response response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().delete("/api/jobPostings/" + jobPostingId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
