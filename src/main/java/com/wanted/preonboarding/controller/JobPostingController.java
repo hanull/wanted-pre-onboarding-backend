@@ -25,4 +25,10 @@ public class JobPostingController {
         jobPostingService.update(id, request);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        jobPostingService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }

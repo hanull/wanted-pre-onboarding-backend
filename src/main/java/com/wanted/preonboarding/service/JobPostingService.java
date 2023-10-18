@@ -21,9 +21,19 @@ public class JobPostingService {
     }
 
     public void update(final Long id, final JobPostingUpdateRequest request) {
-        final JobPosting jobPosting = jobPostingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("존재하지 않은 채용공고입니다."));
+        final JobPosting jobPosting = findJobPostingById(id);
 
         jobPosting.update(request.getPosition(), request.getReward(), request.getJobDescription(), request.getSkill());
+    }
+
+    public void delete(final Long id) {
+        final JobPosting jobPosting = findJobPostingById(id);
+
+        jobPostingRepository.delete(jobPosting);
+    }
+
+    private JobPosting findJobPostingById(final Long id) {
+        return jobPostingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("존재하지 않은 채용공고입니다."));
     }
 }

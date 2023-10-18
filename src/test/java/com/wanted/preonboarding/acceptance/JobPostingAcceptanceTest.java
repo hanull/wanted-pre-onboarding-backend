@@ -44,12 +44,25 @@ public class JobPostingAcceptanceTest {
     void updateJobPosting() {
         final JobPostingUpdateRequest request = new JobPostingUpdateRequest("백엔드 시니어 개발자", 3000000,
                 "백엔드 시니어를 적극 채용합니다.", "Java");
+        final long jobPostingId = 1L;
 
         final Response response = RestAssured.given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().put("/api/jobPostings/" + 1L);
+                .when().put("/api/jobPostings/" + jobPostingId);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @DisplayName("채용공고 삭제에 성공하면, 200을 반환한다.")
+    @Test
+    void deleteJobPosting() {
+        final long jobPostingId = 1L;
+        final Response response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/api/jobPostings/" + jobPostingId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }

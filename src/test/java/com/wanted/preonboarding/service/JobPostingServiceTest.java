@@ -31,7 +31,7 @@ class JobPostingServiceTest {
 
     @DisplayName("존재하지 않은 회사를 채용공고에 등록할 때, 예외가 발생한다.")
     @Test
-    void nonExistCompany() {
+    void nonExistCompanyCreate() {
         final JobPostingCreateRequest request = new JobPostingCreateRequest(-1L, "백엔드 주니어 개발자", 1000000,
                 "원티드랩에서 백엔드 주니어 개발자를 채용합니다.", "Python");
 
@@ -50,12 +50,29 @@ class JobPostingServiceTest {
 
     @DisplayName("존재하지 않은 채용공고를 수정할 때, 예외가 발생한다.")
     @Test
-    void nonExistJobPosting() {
+    void nonExistJobPostingUpdate() {
         final Long nonExistId = 0L;
         final JobPostingUpdateRequest request = new JobPostingUpdateRequest("백엔드 시니어 개발자", 3000000,
                 "백엔드 시니어를 적극 채용합니다.", "Java");
 
         assertThatThrownBy(() -> jobPostingService.update(nonExistId, request))
+                .hasMessage("존재하지 않은 채용공고입니다.");
+    }
+
+    @DisplayName("채용공고를 삭제한다.")
+    @Test
+    void deleteJobPosting() {
+        final long jobPostingId = 1L;
+
+        assertThatNoException().isThrownBy(() -> jobPostingService.delete(jobPostingId));
+    }
+
+    @DisplayName("존재하지 않는 채용공고를 삭제할 때, 예외가 발생한다.")
+    @Test
+    void nonExistJobPostingDelete() {
+        final long nonExistId = 0L;
+
+        assertThatThrownBy(() -> jobPostingService.delete(nonExistId))
                 .hasMessage("존재하지 않은 채용공고입니다.");
     }
 }
