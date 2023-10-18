@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.wanted.preonboarding.domain.*;
 import com.wanted.preonboarding.service.dto.*;
+import java.util.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
@@ -74,5 +75,13 @@ class JobPostingServiceTest {
 
         assertThatThrownBy(() -> jobPostingService.delete(nonExistId))
                 .hasMessage("존재하지 않은 채용공고입니다.");
+    }
+
+    @DisplayName("모든 채용공고를 조회한다.")
+    @Test
+    void getJobPostings() {
+        final List<JobPostingResponse> jobPostings = jobPostingService.findAll();
+
+        assertThat(jobPostings.size()).isEqualTo(1);
     }
 }

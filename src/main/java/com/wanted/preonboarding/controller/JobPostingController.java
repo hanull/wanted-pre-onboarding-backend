@@ -2,6 +2,7 @@ package com.wanted.preonboarding.controller;
 
 import com.wanted.preonboarding.service.*;
 import com.wanted.preonboarding.service.dto.*;
+import java.util.*;
 import javax.websocket.server.*;
 import lombok.*;
 import org.springframework.http.*;
@@ -30,5 +31,10 @@ public class JobPostingController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         jobPostingService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<JobPostingResponse>> getJobPostings() {
+        return ResponseEntity.ok(jobPostingService.findAll());
     }
 }

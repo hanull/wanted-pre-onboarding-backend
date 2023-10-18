@@ -2,6 +2,8 @@ package com.wanted.preonboarding.service;
 
 import com.wanted.preonboarding.domain.*;
 import com.wanted.preonboarding.service.dto.*;
+import java.util.*;
+import java.util.stream.*;
 import lombok.*;
 import org.springframework.stereotype.*;
 
@@ -13,8 +15,7 @@ public class JobPostingService {
     private final CompanyRepository companyRepository;
 
     public void create(final JobPostingCreateRequest request) {
-        final Company company = companyRepository.findById(request.getCompanyId())
-                .orElseThrow(() -> new RuntimeException("존재하지 않은 회사입니다."));
+        final Company company = findCompanyById(request.getCompanyId());
 
         jobPostingRepository.save(new JobPosting(company.getId(), request.getPosition(), request.getReward(),
                 request.getJobDescription(), request.getSkill()));
@@ -35,5 +36,18 @@ public class JobPostingService {
     private JobPosting findJobPostingById(final Long id) {
         return jobPostingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 채용공고입니다."));
+    }
+
+    public List<JobPostingResponse> findAll() {
+        return jobPostingRepository.findAll().stream()
+                .map(jobPosting -> new JobPostingResponse(jobPosting.getId(),
+                        findCompanyById(jobPosting.getCompanyId()).getName(), jobPosting.getPosition(),
+                        jobPosting.getReward(), jobPosting.getSkill()))
+                .collect(Collectors.toList());
+    }
+
+    private Company findCompanyById(final Long id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("존재하지 않은 회사입니다."));
     }
 }
