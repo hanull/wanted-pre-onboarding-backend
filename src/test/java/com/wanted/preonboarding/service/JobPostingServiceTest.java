@@ -16,6 +16,8 @@ class JobPostingServiceTest {
 
     @Autowired
     private JobPostingService jobPostingService;
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -43,6 +45,7 @@ class JobPostingServiceTest {
     @DisplayName("채용공고를 수정한다.")
     @Test
     void updateJobPosting() {
+        createJobPostingOnce();
         final JobPostingUpdateRequest request = new JobPostingUpdateRequest("백엔드 시니어 개발자", 3000000,
                 "백엔드 시니어를 적극 채용합니다.", "Java");
 
@@ -63,6 +66,7 @@ class JobPostingServiceTest {
     @DisplayName("채용공고를 삭제한다.")
     @Test
     void deleteJobPosting() {
+        createJobPostingOnce();
         final long jobPostingId = 1L;
 
         assertThatNoException().isThrownBy(() -> jobPostingService.delete(jobPostingId));
@@ -80,6 +84,7 @@ class JobPostingServiceTest {
     @DisplayName("모든 채용공고를 조회한다.")
     @Test
     void getJobPostings() {
+        createJobPostingOnce();
         final List<JobPostingResponse> jobPostings = jobPostingService.getJobPostings();
 
         assertThat(jobPostings.size()).isEqualTo(1);
@@ -88,10 +93,15 @@ class JobPostingServiceTest {
     @DisplayName("채용공고 상세 조회를 한다.")
     @Test
     void getJobPostingById() {
+        createJobPostingOnce();
         final long id = 1L;
 
         final JobPostingResponse response = jobPostingService.getJobPostingById(id);
 
         assertThat(response.getId()).isEqualTo(id);
+    }
+
+    private void createJobPostingOnce() {
+        jobPostingRepository.save(new JobPosting(1L, "백엔드 주니어", 1000000, "백엔드 주니어 개발자를 채용합니다.", "Java"));
     }
 }
