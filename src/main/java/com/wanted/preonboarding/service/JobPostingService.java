@@ -38,7 +38,7 @@ public class JobPostingService {
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 채용공고입니다."));
     }
 
-    public List<JobPostingResponse> findAll() {
+    public List<JobPostingResponse> getJobPostings() {
         return jobPostingRepository.findAll().stream()
                 .map(jobPosting -> new JobPostingResponse(jobPosting.getId(),
                         findCompanyById(jobPosting.getCompanyId()).getName(), jobPosting.getPosition(),
@@ -49,5 +49,11 @@ public class JobPostingService {
     private Company findCompanyById(final Long id) {
         return companyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회사입니다."));
+    }
+
+    public JobPostingResponse getJobPostingById(final long id) {
+        final JobPosting jobPosting = findJobPostingById(id);
+        return new JobPostingResponse(jobPosting.getId(), findCompanyById(jobPosting.getCompanyId()).getName(),
+                jobPosting.getPosition(), jobPosting.getReward(), jobPosting.getSkill());
     }
 }

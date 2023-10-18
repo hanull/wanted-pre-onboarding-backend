@@ -80,8 +80,18 @@ class JobPostingServiceTest {
     @DisplayName("모든 채용공고를 조회한다.")
     @Test
     void getJobPostings() {
-        final List<JobPostingResponse> jobPostings = jobPostingService.findAll();
+        final List<JobPostingResponse> jobPostings = jobPostingService.getJobPostings();
 
         assertThat(jobPostings.size()).isEqualTo(1);
+    }
+
+    @DisplayName("채용공고 상세 조회를 한다.")
+    @Test
+    void getJobPostingById() {
+        final long id = 1L;
+
+        final JobPostingResponse response = jobPostingService.getJobPostingById(id);
+
+        assertThat(response.getId()).isEqualTo(id);
     }
 }

@@ -3,7 +3,6 @@ package com.wanted.preonboarding.controller;
 import com.wanted.preonboarding.service.*;
 import com.wanted.preonboarding.service.dto.*;
 import java.util.*;
-import javax.websocket.server.*;
 import lombok.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +34,11 @@ public class JobPostingController {
 
     @GetMapping
     public ResponseEntity<List<JobPostingResponse>> getJobPostings() {
-        return ResponseEntity.ok(jobPostingService.findAll());
+        return ResponseEntity.ok(jobPostingService.getJobPostings());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<JobPostingResponse> getJobPostings(@PathVariable Long id) {
+        return ResponseEntity.ok(jobPostingService.getJobPostingById(id));
     }
 }

@@ -36,7 +36,8 @@ public class JobPostingAcceptanceTest {
         final Response response = RestAssured.given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().post("/api/jobPostings");
+                .when()
+                .post("/api/jobPostings");
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -51,7 +52,8 @@ public class JobPostingAcceptanceTest {
         final Response response = RestAssured.given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().put("/api/jobPostings/" + jobPostingId);
+                .when()
+                .put("/api/jobPostings/" + jobPostingId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -61,7 +63,8 @@ public class JobPostingAcceptanceTest {
     void deleteJobPosting() {
         final long jobPostingId = 1L;
         final Response response = RestAssured.given().log().all()
-                .when().delete("/api/jobPostings/" + jobPostingId);
+                .when()
+                .delete("/api/jobPostings/" + jobPostingId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -71,7 +74,8 @@ public class JobPostingAcceptanceTest {
     void findAll() {
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/api/jobPostings")
+                .when()
+                .get("/api/jobPostings")
                 .then().log().all()
                 .extract();
 
@@ -82,6 +86,25 @@ public class JobPostingAcceptanceTest {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(jobPostingIds.size()).isEqualTo(1)
+        );
+    }
+
+    @DisplayName("채용공고 id를 기준으로 상세조회에 성공하면, 상태코드 200과 상세 페이지를 반환한다.")
+    @Test
+    void findById() {
+        final ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/jobPostings/" + 1L)
+                .then().log().all()
+                .extract();
+
+        final JobPostingResponse foundJobPosting = response.as(JobPostingResponse.class);
+
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(foundJobPosting.getId()).isEqualTo(1L),
+                () -> assertThat(foundJobPosting.getCompanyName()).isEqualTo("원티드")
         );
     }
 }
