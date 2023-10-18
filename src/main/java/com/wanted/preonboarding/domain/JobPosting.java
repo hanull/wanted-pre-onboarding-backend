@@ -32,4 +32,11 @@ public class JobPosting {
         this.jobDescription = jobDescription;
         this.skill = skill;
     }
+
+    public void update(final String position, final int reward, final String jobDescription, final String skill) {
+        this.position = position;
+        this.reward = reward;
+        this.jobDescription = jobDescription;
+        this.skill = skill;
+    }
 }

@@ -19,4 +19,11 @@ public class JobPostingService {
         jobPostingRepository.save(new JobPosting(company.getId(), request.getPosition(), request.getReward(),
                 request.getJobDescription(), request.getSkill()));
     }
+
+    public void update(final Long id, final JobPostingUpdateRequest request) {
+        final JobPosting jobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("존재하지 않은 채용공고입니다."));
+
+        jobPosting.update(request.getPosition(), request.getReward(), request.getJobDescription(), request.getSkill());
+    }
 }

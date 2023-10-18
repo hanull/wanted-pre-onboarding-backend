@@ -38,4 +38,19 @@ public class JobPostingAcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
+
+    @DisplayName("채용공고 수정에 성공하면, 200을 반환한다.")
+    @Test
+    void updateJobPosting() {
+        final JobPostingUpdateRequest request = new JobPostingUpdateRequest("백엔드 시니어 개발자", 3000000,
+                "백엔드 시니어를 적극 채용합니다.", "Java");
+
+        final Response response = RestAssured.given().log().all()
+                .body(request)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/jobPostings/" + 1L);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }
