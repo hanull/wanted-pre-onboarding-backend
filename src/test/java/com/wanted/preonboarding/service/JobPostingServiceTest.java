@@ -43,6 +43,17 @@ class JobPostingServiceTest {
                 .hasMessage("존재하지 않은 회사입니다.");
     }
 
+    @DisplayName("채용 보상금이 0원이하인 경우, 예외가 발생한다.")
+    @Test
+    void lessThanMinimumReward() {
+        final int reward = -1;
+        final JobPostingCreateRequest request = new JobPostingCreateRequest(1L, "백엔드 주니어 개발자", reward,
+                "원티드랩에서 백엔드 주니어 개발자를 채용합니다.", "Python");
+
+        assertThatThrownBy(() -> jobPostingService.create(request))
+                .hasMessage("채용 보상금은 0원 이상이어야 합니다.");
+    }
+
     @DisplayName("채용공고를 수정한다.")
     @Test
     void updateJobPosting() {
