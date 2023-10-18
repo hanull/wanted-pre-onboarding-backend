@@ -6,14 +6,17 @@ import java.util.*;
 import java.util.stream.*;
 import lombok.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class JobPostingService {
 
     private final JobPostingRepository jobPostingRepository;
     private final CompanyRepository companyRepository;
 
+    @Transactional
     public void create(final JobPostingCreateRequest request) {
         final Company company = findCompanyById(request.getCompanyId());
 
@@ -21,12 +24,14 @@ public class JobPostingService {
                 request.getJobDescription(), request.getSkill()));
     }
 
+    @Transactional
     public void update(final Long id, final JobPostingUpdateRequest request) {
         final JobPosting jobPosting = findJobPostingById(id);
 
         jobPosting.update(request.getPosition(), request.getReward(), request.getJobDescription(), request.getSkill());
     }
 
+    @Transactional
     public void delete(final Long id) {
         final JobPosting jobPosting = findJobPostingById(id);
 

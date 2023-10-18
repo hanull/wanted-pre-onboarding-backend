@@ -1,6 +1,7 @@
 package com.wanted.preonboarding.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wanted.preonboarding.domain.*;
 import com.wanted.preonboarding.service.dto.*;
@@ -47,9 +48,16 @@ class JobPostingServiceTest {
     void updateJobPosting() {
         createJobPostingOnce();
         final JobPostingUpdateRequest request = new JobPostingUpdateRequest("백엔드 시니어 개발자", 3000000,
-                "백엔드 시니어를 적극 채용합니다.", "Java");
+                "백엔드 시니어를 적극 채용합니다.", "go");
 
-        assertThatNoException().isThrownBy(() -> jobPostingService.update(1L, request));
+        jobPostingService.update(1L, request);
+
+        final JobPostingResponse response = jobPostingService.getJobPostingById(1L);
+
+        assertAll(
+                () -> assertThat(response.getId()).isEqualTo(1L),
+                () -> assertThat(response.getSkill()).isEqualTo(request.getSkill())
+        );
     }
 
     @DisplayName("존재하지 않은 채용공고를 수정할 때, 예외가 발생한다.")
