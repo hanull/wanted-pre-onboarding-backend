@@ -97,6 +97,8 @@ public class JobPostingAcceptanceTest {
     @Test
     void findById() {
         createJobPostingOnce();
+        createJobPostingOnce();
+        createJobPostingOnce();
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -104,12 +106,13 @@ public class JobPostingAcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        final JobPostingResponse foundJobPosting = response.as(JobPostingResponse.class);
+        final JobPostingDetailResponse foundJobPosting = response.as(JobPostingDetailResponse.class);
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(foundJobPosting.getId()).isEqualTo(1L),
-                () -> assertThat(foundJobPosting.getCompanyName()).isEqualTo("원티드")
+                () -> assertThat(foundJobPosting.getCompanyName()).isEqualTo("원티드"),
+                () -> assertThat(foundJobPosting.getOtherJobPostingIds().size()).isEqualTo(2)
         );
     }
 

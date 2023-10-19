@@ -63,7 +63,7 @@ class JobPostingServiceTest {
 
         jobPostingService.update(1L, request);
 
-        final JobPostingResponse response = jobPostingService.getJobPostingById(1L);
+        final JobPostingDetailResponse response = jobPostingService.getJobPostingById(1L);
 
         assertAll(
                 () -> assertThat(response.getId()).isEqualTo(1L),
@@ -115,7 +115,7 @@ class JobPostingServiceTest {
         createJobPostingOnce();
         final long id = 1L;
 
-        final JobPostingResponse response = jobPostingService.getJobPostingById(id);
+        final JobPostingDetailResponse response = jobPostingService.getJobPostingById(id);
 
         assertThat(response.getId()).isEqualTo(id);
     }

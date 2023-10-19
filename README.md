@@ -77,20 +77,27 @@
   HTTP/1.1 200 OK
   
   [
-      {
-          "id": 1,
-          "companyName": "원티드",
-          "position": "백엔드 주니어 개발자",
-          "reward": 1000000,
-          "skill": "java"
-      },
-  		{
-          "id": 2,
-          "companyName": "우아한형제들",
-          "position": "백엔드 시니어 개발자",
-          "reward": 9999999,
-          "skill": "python"
-      }
+    {
+        "id": 1,
+        "companyName": "원티드",
+        "position": "백엔드 주니어 개발자11",
+        "reward": 1000000,
+        "skill": "java"
+    },
+    {
+        "id": 2,
+        "companyName": "원티드",
+        "position": "백엔드 주니어 개발자22",
+        "reward": 1000000,
+        "skill": "java"
+    },
+    {
+        "id": 3,
+        "companyName": "원티드",
+        "position": "백엔드 주니어 개발자33",
+        "reward": 1000000,
+        "skill": "java"
+    }
   ]
   ```
 
@@ -108,10 +115,15 @@
   HTTP/1.1 200 OK
   
   {
-      "id": 2,
-      "companyName": "우아한형제들",
-      "position": "백엔드 시니어 개발자",
-      "reward": 9999999,
-      "skill": "python"
+    "id": 1,
+    "companyName": "원티드",
+    "position": "백엔드 주니어 개발자11",
+    "reward": 1000000,
+    "skill": "java",
+    "jobDescription": "백엔드 주니어 개발자를 채용합니다.11",
+    "otherJobPostingIds": [
+        2,
+        3
+    ]
   }
   ```

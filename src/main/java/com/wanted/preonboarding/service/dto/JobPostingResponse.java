@@ -2,8 +2,8 @@ package com.wanted.preonboarding.service.dto;
 
 import lombok.*;
 
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
 public class JobPostingResponse {
 

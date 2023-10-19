@@ -56,9 +56,12 @@ public class JobPostingService {
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회사입니다."));
     }
 
-    public JobPostingResponse getJobPostingById(final long id) {
+    public JobPostingDetailResponse getJobPostingById(final long id) {
         final JobPosting jobPosting = findJobPostingById(id);
-        return new JobPostingResponse(jobPosting.getId(), findCompanyById(jobPosting.getCompanyId()).getName(),
-                jobPosting.getPosition(), jobPosting.getReward(), jobPosting.getSkill());
+        final List<Long> otherJobPostingIds = jobPostingRepository.findIdsExceptForCurrentByCompanyId(
+                jobPosting.getCompanyId(), id);
+        return new JobPostingDetailResponse(jobPosting.getId(), findCompanyById(jobPosting.getCompanyId()).getName(),
+                jobPosting.getPosition(), jobPosting.getReward(), jobPosting.getSkill(), jobPosting.getJobDescription(),
+                otherJobPostingIds);
     }
 }
